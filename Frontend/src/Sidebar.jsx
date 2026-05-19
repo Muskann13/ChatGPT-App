@@ -2,12 +2,13 @@ import "./Sidebar.css";
 import { useContext, useEffect } from "react";
 import { MyContext } from './MyContext';
 import {v1 as uuidv1} from "uuid";
+import logo from "./assets/blacklogo.png";
 function Sidebar(){
     const {allThread,setAllThread,currThreadId,setNewChat,setPrompt,setReply,setPrevChats,setCurrThreadId}=useContext(MyContext);
-    
+    const BASE_URL = "https://chatgpt-app-4ybb.onrender.com";
     const getAllThreads = async()=>{
         try{
-          const response=await fetch("http://localhost:8080/api/thread");
+          const response=await fetch(`${BASE_URL}/api/thread`);
           const res = await response.json();
         //   console.log(res);
           const filterData=res.map(thread=>({threadId:thread.threadId,title:thread.title}));
@@ -34,7 +35,7 @@ function Sidebar(){
     const changeThread =async(newThreadId)=>{
       setCurrThreadId(newThreadId);
       try{ 
-        const response=await fetch(`http://localhost:8080/api/thread/${newThreadId}`);
+        const response=await fetch(`${BASE_URL}/api/thread/${newThreadId}`);
         const res= await response.json();
         console.log(res);
         setPrevChats(res);
@@ -48,7 +49,7 @@ function Sidebar(){
 
     const deleteThread=async(deleteThreadId)=>{
         try{
-          const response=await fetch(`http://localhost:8080/api/thread/${deleteThreadId}`,{method:"DELETE"});
+          const response=await fetch(`${BASE_URL}/api/thread/${deleteThreadId}`,{method:"DELETE"});
           const res=await response.json();
           console.log(res);
           console.log("deleteId:", deleteThreadId);
@@ -66,7 +67,7 @@ function Sidebar(){
         <section className="sidebar">
             {/* new chat button */}
             <button onClick={createNewChat}>
-                <img src="src/assets/blacklogo.png" alt="gpt logo" className="logo"></img>
+                <img src={logo} alt="gpt logo" className="logo"></img>
                 <span><i className="fa-solid fa-pen-to-square"></i></span>
             </button>
             
