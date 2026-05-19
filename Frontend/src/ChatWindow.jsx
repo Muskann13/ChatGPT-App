@@ -4,6 +4,7 @@ import { MyContext } from "./MyContext";
 import { useContext, useState,useEffect } from "react";
 import {ScaleLoader} from "react-spinners";
 function ChatWindow(){
+   const BASE_URL = "https://chatgpt-app-4ybb.onrender.com";
    const {prompt,setPrompt,reply,setReply,currThreadId,setThreadId,prevChats,setPrevChats,setNewChat}=useContext(MyContext);
    const [Loading,setLoading]=useState(false);
    const getReply=async()=>{
@@ -21,7 +22,7 @@ function ChatWindow(){
          })
       };
       try{
-         const response=await fetch("https://chatgpt-app-4ybb.onrender.com/api/chat",options);
+         const response=await fetch(`${BASE_URL}/api/chat`, options);
          const res= await response.json();
          setReply(res.reply);
       }catch(err){
